@@ -26,6 +26,10 @@ const checkOutButton = document.getElementById('check-out');
 const viewRecordsButton = document.getElementById('view-records');
 const viewAllRecordsButton = document.getElementById('view-all-records');
 const recordsTableBody = document.getElementById('records-table-body');
+const successModal = new bootstrap.Modal(document.getElementById('successModal'), {
+    keyboard: false
+});
+const modalMessage = document.getElementById('modalMessage');
 
 // Login event
 loginForm.addEventListener('submit', (e) => {
@@ -78,7 +82,8 @@ checkInButton.addEventListener('click', () => {
         checkIn: firebase.firestore.FieldValue.serverTimestamp(),
         checkOut: null
     }).then(() => {
-        alert('¡Entrada registrada con éxito!');
+        modalMessage.textContent = '¡Entrada registrada con éxito!';
+        successModal.show();
     }).catch(err => {
         console.error(err);
     });
@@ -92,7 +97,8 @@ checkOutButton.addEventListener('click', () => {
             db.collection('attendance').doc(doc.id).update({
                 checkOut: firebase.firestore.FieldValue.serverTimestamp()
             }).then(() => {
-                alert('¡Salida registrada con éxito!');
+                modalMessage.textContent = '¡Salida registrada con éxito!';
+                successModal.show();
             }).catch(err => {
                 console.error(err);
             });
